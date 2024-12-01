@@ -1,5 +1,8 @@
 # pspfetch
 A PSP app inspired by neofetch.
+
+(https://i.imgur.com/P0TnRnB.png "pspfetch")
+
 ## IMPORTANT
 ## DO NOT RENAME THE APP FOLDER
 
