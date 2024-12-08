@@ -10,7 +10,7 @@ Drop app folder into /PSP/GAME/ (App folder must contain EBOOT.PBP).
 seandear(@antim0118) for helping with the font
    
 # Features:
-1. Fast colors change.
+1. Fast color change.
 2. Fast change of ASCII art.
 3. Reboot script by pressing CIRCLE.
 4. Toggle USB connection by pressing SQUARE.
