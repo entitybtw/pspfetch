@@ -1,4 +1,4 @@
 collectgarbage()
 color.loadpalette()
 
-dofile("neofetch.lua")
+dofile("pspfetch.lua")
