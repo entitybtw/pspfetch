@@ -1,7 +1,7 @@
 # pspfetch
 A PSP app inspired by neofetch.
 
-![](https://i.imgur.com/P0TnRnB.png "pspfetch")
+![](https://i.imgur.com/CiXvHpP.png "pspfetch")
 
 ## IMPORTANT
 ## DO NOT RENAME THE APP FOLDER
@@ -9,12 +9,11 @@ A PSP app inspired by neofetch.
 # Installation
 Drop the ONEluav4R1 folder into /PSP/GAME/.
 
-# We currently need help with:
-1. Changing the pspfetch font to a console-style font.
-2. Changing the color of the ASCII art.
+# Thanks to:
+@seandear for helping with the font
    
 # Features:
-1. Fast change of system info colors.
+1. Fast colors change.
 2. Fast change of ASCII art.
 3. Reboot script by pressing CIRCLE.
 4. Toggle USB connection by pressing SQUARE.
