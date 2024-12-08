@@ -3,9 +3,6 @@ A PSP app inspired by neofetch.
 
 ![](https://i.imgur.com/CiXvHpP.png "pspfetch")
 
-## IMPORTANT
-## DO NOT RENAME THE APP FOLDER
-
 # Installation
 Drop the ONEluav4R1 folder into /PSP/GAME/.
 
