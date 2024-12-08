@@ -12,5 +12,5 @@ seandear(@antim0118) for helping with the font
 # Features:
 1. Fast color change.
 2. Fast change of ASCII art.
-3. Reboot script by pressing CIRCLE.
+3. Reboot app by pressing CIRCLE.
 4. Toggle USB connection by pressing SQUARE.
