@@ -9,7 +9,7 @@ A PSP app inspired by neofetch.
 Drop app folder into /PSP/GAME/ (App folder must contain EBOOT.PBP). 
 
 # Thanks to:
-seandear(@antim0118) for helping with the font
+seandear(@antim0118) for helping with the font, app icon, bg, name and fixing bugs
    
 # Features:
 1. Fast color change.
