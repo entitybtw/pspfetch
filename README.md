@@ -16,4 +16,4 @@ seandear(@antim0118) for helping with the font, app icon, bg, name and fixing bu
 2. Fast change of ASCII art.
 3. Reboot app by pressing CIRCLE.
 4. Toggle USB connection by pressing SQUARE.
-5. Press start to exit
+5. Press START to exit
