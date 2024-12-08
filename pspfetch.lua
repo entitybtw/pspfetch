@@ -1,5 +1,5 @@
 -- Loading the font, thanks to @seandear for helping with the font^.^
-local ark4_font = font.load("ms0:/PSP/GAME/ONEluav4R1/FONT.pgf")
+local ark4_font = font.load("FONT.pgf")
 
 -- Converting hex code to color
 
@@ -26,7 +26,7 @@ local art = {}
 -- Loading colors
 
 local function load_colors()
-    local colors_path = "ms0:/PSP/GAME/ONEluav4R1/colors.txt"
+    local colors_path = "colors.txt"
     if files.exists(colors_path) then
         local colors_file = io.open(colors_path, "r")
         if colors_file then
@@ -61,7 +61,7 @@ end
 
 local function load_ascii_art()
     art = {}
-    local art_path = "ms0:/PSP/GAME/ONEluav4R1/ascii_art.txt"
+    local art_path = "ascii_art.txt"
     if files.exists(art_path) then
         local art_file = io.open(art_path, "r")
         if art_file then
