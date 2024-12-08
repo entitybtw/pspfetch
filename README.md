@@ -1,7 +1,9 @@
 # pspfetch
 A PSP app inspired by neofetch.
 
-![](https://i.imgur.com/CiXvHpP.png "pspfetch")
+![](https://i.imgur.com/weHdvCA.png "in app")
+
+![](https://i.imgur.com/X7QSf8G.png "in xmb")
 
 # Installation
 Drop app folder into /PSP/GAME/ (App folder must contain EBOOT.PBP). 
