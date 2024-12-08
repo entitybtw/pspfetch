@@ -141,8 +141,8 @@ while true do
     screen.print(info_start_x, info_start_y + 88, "ram: " .. ram_display, 0.4, colors.info)
     local charging_status = batt.charging() and "[charging]" or "[not charging]"
     screen.print(info_start_x, info_start_y + 103, "battery: " .. batt.lifepercent() .. "% " .. charging_status, 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 118, "cpu clock: " .. os.cpu() .. " mhz", 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 133, "bus clock: " .. os.bus() .. " mhz", 0.4, colors.info)
+    screen.print(info_start_x, info_start_y + 118, "cpu: " .. "Sony Allegrex (CXD2962GG) @ 333 MHz", 0.4, colors.info)
+    screen.print(info_start_x, info_start_y + 133, "gpu: " .. "Sony GPU @ 166 MHz", 0.4, colors.info)
     screen.print(info_start_x, info_start_y + 148, "locale: " .. os.language(), 0.4, colors.info)
 
     if buttons.start then break end
