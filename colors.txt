@@ -1,1 +1,3 @@
 info = #f5d478
+ascii = white
+user = #ff85fd
