@@ -10,7 +10,7 @@ A PSP app inspired by neofetch.
 Drop the ONEluav4R1 folder into /PSP/GAME/.
 
 # Thanks to:
-@seandear for helping with the font
+seandear(@antim0118) for helping with the font
    
 # Features:
 1. Fast colors change.
