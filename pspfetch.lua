@@ -1,6 +1,53 @@
 -- Loading the font, thanks to @seandear for helping with the font^.^
 local ark4_font = font.load("FONT.pgf")
 
+-- Symbols that the system recognizes
+local characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,'\"_+-=?/!$@&()#%*:;<>[]\\^"
+
+-- Table for storing character sprites
+local lettersSprites = {}
+
+-- It is assumed that the symbol sprite files are located in the symbols folder and have names in the format "1.png", "2.png", etc.
+for i = 1, #characters do
+    local char = characters:sub(i, i)
+    -- Use image.load to load an image from a specified path
+    local sprite = image.load("symbols/" .. i .. ".png")
+    if sprite then
+        lettersSprites[char] = sprite
+    else
+        print("Failed to load image for symbol:" .. char)
+    end
+end
+
+-- Function to render a string of text to the screen with support for colors from the `colors` table
+function drawText(text, x, y, printedCharsPerLine, color)
+    local CHARACTER_WIDTH = 6 
+    local CHARACTER_HEIGHT = 12
+    local lineHeight = CHARACTER_HEIGHT
+    local charsToShow = printedCharsPerLine or #text
+    local startX = x
+
+    color = color or color.new(255, 255, 255)
+
+    for i = 1, charsToShow do
+        local char = text:sub(i, i)
+
+        if char == "\n" then
+            y = y + lineHeight
+            x = startX
+        else
+            local sprite = lettersSprites[char]
+            if sprite then
+                image.blittint(sprite, x, y, color)
+                x = x + CHARACTER_WIDTH
+            else
+                x = x + CHARACTER_WIDTH
+                print("Unknown character: " .. char)
+            end
+        end
+    end
+end
+
 -- Converting hex code to color
 
 local function hex_to_color(hex)
@@ -56,7 +103,6 @@ local function load_colors()
     end
 end
 
-
 -- Loading ASCII art
 
 local function load_ascii_art()
@@ -106,7 +152,9 @@ while true do
 
 -- Misc
 
-    local art_start_y = 10
+    drawText("> pspfetch", 10, 10, 40, colors.info)
+
+    local art_start_y = 25
     for i, line in ipairs(art) do
         screen.print(10, art_start_y + (i - 1) * 8, line, 0.6, colors.ascii)
     end
@@ -128,22 +176,65 @@ while true do
     local ram_display = string.format("%d MB", ram_total)
 
     local info_start_x = 170
-    local info_start_y = 10
+    local info_start_y = art_start_y
+    -- local info_start_y = 10
 
 -- Info
 
-    screen.print(info_start_x, info_start_y, user .. "@" .. model, 0.4, colors.user)
-    screen.print(info_start_x, info_start_y + 13, "-------------", 0.6, colors.info)
-    screen.print(info_start_x, info_start_y + 28, "firmware: " .. firmware, 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 43, "kernel: " .. "PSP Custom Firmware", 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 58, "packages: " .. "n/d", 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 73, "display: " .. "480x272 @ 60hz", 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 88, "ram: " .. ram_display, 0.4, colors.info)
+    drawText(user .. "@" .. model, info_start_x, info_start_y, 40, colors.user)
+    drawText("-------------", info_start_x, info_start_y + 13, 40, colors.info)
+    drawText("firmware: " .. firmware, info_start_x, info_start_y + 28, 40, colors.info)
+    drawText("kernel: " .. "PSP Custom Firmware", info_start_x, info_start_y + 43, 40, colors.info)
+    drawText("packages: " .. "n/d", info_start_x, info_start_y + 58, 40, colors.info)
+    drawText("display: " .. "480x272 @ 60hz", info_start_x, info_start_y + 73, 40, colors.info)
+    drawText("ram: " .. ram_display, info_start_x, info_start_y + 88, 40, colors.info)
+
     local charging_status = batt.charging() and "[charging]" or "[not charging]"
-    screen.print(info_start_x, info_start_y + 103, "battery: " .. batt.lifepercent() .. "% " .. charging_status, 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 118, "cpu: " .. "Sony Allegrex (CXD2962GG) @ 333 MHz", 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 133, "gpu: " .. "Sony GPU @ 166 MHz", 0.4, colors.info)
-    screen.print(info_start_x, info_start_y + 148, "locale: " .. os.language(), 0.4, colors.info)
+    drawText("battery: " .. batt.lifepercent() .. "% " .. charging_status, info_start_x, info_start_y + 103, 40, colors.info)
+    drawText("cpu: " .. "Sony Allegrex (CXD2962GG) @ 333 MHz", info_start_x, info_start_y + 118, 40, colors.info)
+    drawText("gpu: " .. "Sony GPU @ 166 MHz", info_start_x, info_start_y + 133, 40, colors.info)
+    drawText("locale: " .. os.language(), info_start_x, info_start_y + 148, 40, colors.info)
+
+-- Color indicators
+
+local function draw_indicators(x, y, radius, color, sections)
+    local sections = sections or 30
+    for i = -radius, radius do
+        local line_y = y + i
+        local width = math.floor(math.sqrt(radius^2 - i^2))
+
+        draw.line(x - width, line_y, x + width, line_y, color)
+    end
+end
+
+local indicators_start_x = info_start_x + 40
+local indicators_start_y = info_start_y + 172
+local indicators_radius = 6
+local indicators_spacing = 16
+local max_per_row = 30
+local row_offset = 20
+
+local auto_select_colors = false
+local selected_colors = {colors.ascii, colors.info, colors.user}
+
+local indicators_index = 0
+local current_row_y = indicators_start_y
+
+local colors_to_use = auto_select_colors and colors or selected_colors
+
+for _, color in pairs(colors_to_use) do
+    local x = indicators_start_x + (indicators_index % max_per_row) * indicators_spacing
+    local y = current_row_y
+
+    draw_indicators(x, y, indicators_radius, color)
+
+    indicators_index = indicators_index + 1
+    if indicators_index % max_per_row == 0 then
+        current_row_y = current_row_y + row_offset
+    end
+end
+
+drawText(">", 10, info_start_y + 180, 40, colors.ascii)
 
     if buttons.start then break end
 
