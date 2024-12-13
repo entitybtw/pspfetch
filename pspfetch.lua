@@ -132,6 +132,27 @@ font.setdefault(ark4_font)
 
 -- Buttons
 
+local ram = os.ram()
+local packages = 0
+
+-- Function to recursively scan directories
+local function scan_directory(dir)
+	 for _, f in ipairs(files.list(dir)) do
+		if f.directory and f.name ~= "." and f.name ~= ".." then
+			scan_directory(f.path)
+		elseif f.name:match("([^/\\]+)$"):upper() == "EBOOT.PBP" then
+			packages = packages + 1
+		elseif f.name:match(".*[sS][oO]$") then
+			packages = packages + 1
+		end
+	end
+end
+
+scan_directory("ms0:/PSP/GAME")
+scan_directory("ms0:/PSP/GAME150")
+scan_directory("ms0:/ISO")
+
+
 while true do
     buttons.read()
 
@@ -162,11 +183,14 @@ while true do
     local firmware = os.cfw()
     local model = hw.getmodel()
 
-    if firmware == "UNK" then
+	if files.exists("ms0:/SEPLUGINS/PLUGINS.TXT") or files.exists("ms0:/PSP/SAVEDATA/ARK_01234") then
+		local version = os.versiontxt()
+		firmware = string.sub(version, 9, 12) .. " ARK-4"
+	elseif firmware == "UNK" then
         firmware = "unknown"
     end
 
-    local user = os.nick()
+	local user = os.nick()
     local ram_total = 64
 
     if model == 1000 then
@@ -185,15 +209,16 @@ while true do
     drawText("-------------", info_start_x, info_start_y + 13, 40, colors.info)
     drawText("firmware: " .. firmware, info_start_x, info_start_y + 28, 40, colors.info)
     drawText("kernel: " .. "PSP Custom Firmware", info_start_x, info_start_y + 43, 40, colors.info)
-    drawText("packages: " .. "n/d", info_start_x, info_start_y + 58, 40, colors.info)
+    drawText("packages: " .. packages, info_start_x, info_start_y + 58, 40, colors.info)
     drawText("display: " .. "480x272 @ 60hz", info_start_x, info_start_y + 73, 40, colors.info)
     drawText("ram: " .. ram_display, info_start_x, info_start_y + 88, 40, colors.info)
 
     local charging_status = batt.charging() and "[charging]" or "[not charging]"
     drawText("battery: " .. batt.lifepercent() .. "% " .. charging_status, info_start_x, info_start_y + 103, 40, colors.info)
-    drawText("cpu: " .. "Sony Allegrex (CXD2962GG) @ 333 MHz", info_start_x, info_start_y + 118, 40, colors.info)
-    drawText("gpu: " .. "Sony GPU @ 166 MHz", info_start_x, info_start_y + 133, 40, colors.info)
-    drawText("locale: " .. os.language(), info_start_x, info_start_y + 148, 40, colors.info)
+    drawText("cpu: " .. "Sony Allegrex (CXD2962GG) @ " .. os.cpu() .. "MHz", info_start_x, info_start_y + 118, 40, colors.info)
+    drawText("bus: " .. "Sony Allegrex (CXD2962GG) @ " .. os.bus() .. "MHz", info_start_x, info_start_y + 133, 40, colors.info)
+	drawText("memory: " .. math.floor(os.totalram() / 1024 / 1024)-math.floor(ram / 1024 / 1024) .. "MiB / " .. math.floor(os.totalram() / 1024 / 1024) .. "MiB", info_start_x, info_start_y + 148, 40, colors.info)
+    drawText("locale: " .. os.language(), info_start_x, info_start_y + 163, 40, colors.info)
 
 -- Color indicators
 
@@ -208,7 +233,7 @@ local function draw_indicators(x, y, radius, color, sections)
 end
 
 local indicators_start_x = info_start_x + 40
-local indicators_start_y = info_start_y + 172
+local indicators_start_y = info_start_y + 187
 local indicators_radius = 6
 local indicators_spacing = 16
 local max_per_row = 30
@@ -234,7 +259,7 @@ for _, color in pairs(colors_to_use) do
     end
 end
 
-drawText(">", 10, info_start_y + 180, 40, colors.ascii)
+drawText("> start to quit", 10, info_start_y + 200, 40, colors.ascii)
 
     if buttons.start then break end
 
