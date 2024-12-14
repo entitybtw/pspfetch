@@ -138,12 +138,14 @@ local packages = 0
 -- Function to recursively scan directories
 local function scan_directory(dir)
 	 for _, f in ipairs(files.list(dir)) do
-		if f.directory and f.name ~= "." and f.name ~= ".." then
-			scan_directory(f.path)
-		elseif f.name:match("([^/\\]+)$"):upper() == "EBOOT.PBP" then
-			packages = packages + 1
-		elseif f.name:match(".*[sS][oO]$") then
-			packages = packages + 1
+		if not f.path:match("%%") then
+			if f.directory and f.name ~= "." and f.name ~= ".." then
+				scan_directory(f.path)
+			elseif f.name:match("([^/\\]+)$"):upper() == "EBOOT.PBP" then
+				packages = packages + 1
+			elseif f.name:match(".*[sS][oO]$") then
+				packages = packages + 1
+			end
 		end
 	end
 end
@@ -217,8 +219,9 @@ while true do
     drawText("battery: " .. batt.lifepercent() .. "% " .. charging_status, info_start_x, info_start_y + 103, 40, colors.info)
     drawText("cpu: " .. "Sony Allegrex (CXD2962GG) @ " .. os.cpu() .. "MHz", info_start_x, info_start_y + 118, 40, colors.info)
     drawText("bus: " .. "Sony Allegrex (CXD2962GG) @ " .. os.bus() .. "MHz", info_start_x, info_start_y + 133, 40, colors.info)
-	drawText("memory: " .. math.floor(os.totalram() / 1024 / 1024)-math.floor(ram / 1024 / 1024) .. "MiB / " .. math.floor(os.totalram() / 1024 / 1024) .. "MiB", info_start_x, info_start_y + 148, 40, colors.info)
-    drawText("locale: " .. os.language(), info_start_x, info_start_y + 163, 40, colors.info)
+    drawText("gpu: " .. "Sony GPU @ 166MHz", info_start_x, info_start_y + 148, 40, colors.info)
+	drawText("memory: " .. math.floor(os.totalram() / 1024 / 1024)-math.floor(ram / 1024 / 1024) .. "MiB / " .. math.floor(os.totalram() / 1024 / 1024) .. "MiB", info_start_x, info_start_y + 163, 40, colors.info)
+    drawText("locale: " .. os.language(), info_start_x, info_start_y + 178, 40, colors.info)
 
 -- Color indicators
 
@@ -233,7 +236,7 @@ local function draw_indicators(x, y, radius, color, sections)
 end
 
 local indicators_start_x = info_start_x + 40
-local indicators_start_y = info_start_y + 187
+local indicators_start_y = info_start_y + 208
 local indicators_radius = 6
 local indicators_spacing = 16
 local max_per_row = 30
@@ -259,7 +262,7 @@ for _, color in pairs(colors_to_use) do
     end
 end
 
-drawText("> start to quit", 10, info_start_y + 200, 40, colors.ascii)
+drawText("> start to quit", 10, info_start_y + 215, 40, colors.ascii)
 
     if buttons.start then break end
 
