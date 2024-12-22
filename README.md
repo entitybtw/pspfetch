@@ -9,9 +9,9 @@ A PSP app inspired by neofetch.
 Drop app folder into /PSP/GAME/ (App folder must contain EBOOT.PBP). 
 
 # Thanks to:
-seandear(@antim0118) for helping with the font, app icon, bg, name in xmb, and fixing bugs
-@krazynez for adding ARK4 support, package count, auto-detection of CPU bus/speed, and memory usage.
-@NobleEpuz for helping with sprite font
+1. seandear(@antim0118) for helping with the font, app icon, bg, name in xmb, and fixing bugs
+2. @krazynez for adding ARK4 support, package count, auto-detection of CPU bus/speed, and memory usage.
+3. @NobleEpuz for helping with sprite font
 
    
 # Features:
