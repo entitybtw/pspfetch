@@ -1,7 +1,7 @@
 # pspfetch
 A PSP app inspired by neofetch.
 
-![](https://i.imgur.com/cjEBznw.png "in app")
+![](https://i.imgur.com/ShAHfjQ.png "in app")
 
 ![](https://i.imgur.com/X7QSf8G.png "in xmb")
 
@@ -10,6 +10,7 @@ Drop app folder into /PSP/GAME/ (App folder must contain EBOOT.PBP).
 
 # Thanks to:
 seandear(@antim0118) for helping with the font, app icon, bg, name in xmb, and fixing bugs
+@krazynez for adding ARK4 support, package count, auto-detection of CPU bus/speed, and memory usage.
 @NobleEpuz for helping with sprite font
 
    
