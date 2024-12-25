@@ -49,7 +49,6 @@ function drawText(text, x, y, printedCharsPerLine, color)
 end
 
 -- Converting hex code to color
-
 local function hex_to_color(hex)
     if not hex:match("^#%x%x%x%x%x%x$") then
         return nil 
@@ -62,7 +61,6 @@ local function hex_to_color(hex)
 end
 
 -- Misc
-
 local usb_enabled = false
 local colors = {
     ascii_art = color.new(255, 255, 255),
@@ -71,7 +69,6 @@ local colors = {
 local art = {}
 
 -- Loading colors
-
 local function load_colors()
     local colors_path = "colors.txt"
     if files.exists(colors_path) then
@@ -104,7 +101,6 @@ local function load_colors()
 end
 
 -- Loading ASCII art
-
 local function load_ascii_art()
     art = {}
     local art_path = "ascii_art.txt"
@@ -127,33 +123,30 @@ load_colors()
 load_ascii_art()
 
 -- Set the default font
-
 font.setdefault(ark4_font)
 
 -- Buttons
-
 local ram = os.ram()
 local packages = 0
 
 -- Function to recursively scan directories
 local function scan_directory(dir)
-	 for _, f in ipairs(files.list(dir)) do
-		if not f.path:match("%%") then
-			if f.directory and f.name ~= "." and f.name ~= ".." then
-				scan_directory(f.path)
-			elseif f.name:match("([^/\\]+)$"):upper() == "EBOOT.PBP" then
-				packages = packages + 1
-			elseif f.name:match(".*[sS][oO]$") then
-				packages = packages + 1
-			end
-		end
-	end
+    for _, f in pairs(files.list(dir) or {}) do
+        if not f.path:match("%%") then
+            if f.directory and f.name ~= "." and f.name ~= ".." then
+                scan_directory(f.path)
+            elseif f.name:upper() == "EBOOT.PBP" then
+                packages = packages + 1
+            elseif f.name:match(".*%.so$") then
+                packages = packages + 1
+            end
+        end
+    end
 end
 
 scan_directory("ms0:/PSP/GAME")
 scan_directory("ms0:/PSP/GAME150")
 scan_directory("ms0:/ISO")
-
 
 while true do
     buttons.read()
@@ -185,14 +178,14 @@ while true do
     local firmware = os.cfw()
     local model = hw.getmodel()
 
-	if files.exists("ms0:/SEPLUGINS/PLUGINS.TXT") or files.exists("ms0:/PSP/SAVEDATA/ARK_01234") then
-		local version = os.versiontxt()
-		firmware = string.sub(version, 9, 12) .. " ARK-4"
-	elseif firmware == "UNK" then
+    if files.exists("ms0:/SEPLUGINS/PLUGINS.TXT") or files.exists("ms0:/PSP/SAVEDATA/ARK_01234") then
+        local version = os.versiontxt()
+        firmware = string.sub(version, 9, 12) .. " ARK-4"
+    elseif firmware == "UNK" then
         firmware = "unknown"
     end
 
-	local user = os.nick()
+    local user = os.nick()
     local ram_total = 64
 
     if model == 1000 then
@@ -203,7 +196,6 @@ while true do
 
     local info_start_x = 170
     local info_start_y = art_start_y
-    -- local info_start_y = 10
 
 -- Info
 
@@ -220,7 +212,7 @@ while true do
     drawText("cpu: " .. "Sony Allegrex (CXD2962GG) @ " .. os.cpu() .. "MHz", info_start_x, info_start_y + 118, 40, colors.info)
     drawText("bus: " .. "Sony Allegrex (CXD2962GG) @ " .. os.bus() .. "MHz", info_start_x, info_start_y + 133, 40, colors.info)
     drawText("gpu: " .. "Sony GPU @ 166MHz", info_start_x, info_start_y + 148, 40, colors.info)
-	drawText("memory: " .. math.floor(os.totalram() / 1024 / 1024)-math.floor(ram / 1024 / 1024) .. "MiB / " .. math.floor(os.totalram() / 1024 / 1024) .. "MiB", info_start_x, info_start_y + 163, 40, colors.info)
+    drawText("memory: " .. math.floor(os.totalram() / 1024 / 1024) - math.floor(ram / 1024 / 1024) .. "MiB / " .. math.floor(os.totalram() / 1024 / 1024) .. "MiB", info_start_x, info_start_y + 163, 40, colors.info)
     drawText("locale: " .. os.language(), info_start_x, info_start_y + 178, 40, colors.info)
 
 -- Color indicators
