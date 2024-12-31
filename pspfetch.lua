@@ -129,16 +129,18 @@ font.setdefault(ark4_font)
 local ram = os.ram()
 local packages = 0
 
--- Function to recursively scan directories
+-- Optimized function to recursively scan directories
 local function scan_directory(dir)
-    for _, f in pairs(files.list(dir) or {}) do
-        if not f.path:match("%%") then
-            if f.directory and f.name ~= "." and f.name ~= ".." then
-                scan_directory(f.path)
-            elseif f.name:upper() == "EBOOT.PBP" then
-                packages = packages + 1
-            elseif f.name:match(".*%.so$") then
-                packages = packages + 1
+    local directories_to_scan = {dir}
+    while #directories_to_scan > 0 do
+        local current_dir = table.remove(directories_to_scan)
+        for _, f in pairs(files.list(current_dir) or {}) do
+            if not f.path:match("%%") then
+                if f.directory and f.name ~= "." and f.name ~= ".." then
+                    table.insert(directories_to_scan, f.path)
+                elseif f.name:upper() == "EBOOT.PBP" or f.name:match(".*%.so$") then
+                    packages = packages + 1
+                end
             end
         end
     end
