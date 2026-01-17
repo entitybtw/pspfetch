@@ -1,9 +1,12 @@
 # pspfetch
+
+### [russian readme version / русская версия readme](./README_RU.md)
+
 A PSP app inspired by neofetch.
 
-![](https://i.imgur.com/ShAHfjQ.png "in app")
+![](images/app.png "in app")
 
-![](https://i.imgur.com/X7QSf8G.png "in xmb")
+![](images/xmb.png "in xmb")
 
 # Installation
 Drop app folder into /PSP/GAME/ (App folder must contain EBOOT.PBP). 
