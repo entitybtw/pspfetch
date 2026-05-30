@@ -1,4 +1,3 @@
-collectgarbage()
-color.loadpalette()
+System.GC()
 
 dofile("pspfetch.lua")
